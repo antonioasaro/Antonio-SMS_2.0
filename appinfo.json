@@ -3,12 +3,7 @@
     "uuid": "5cc7ebd1-ea97-494c-ae7c-ecd05dd33a5a",
     "appKeys": {
         "who_0": 1,
-        "who_1": 2,
-        "num_0": 3,
-        "num_1": 4,
-        "msg_2": 7,
-        "msg_1": 6,
-        "msg_0": 5
+        "who_1": 2
     },
     "longName": "Antonio-SMS_2.0",
     "versionCode": 1,
