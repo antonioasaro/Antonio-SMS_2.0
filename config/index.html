@@ -12,6 +12,7 @@ Num_1: <span id="num_1"></span><br>
 Msg_0: <span id="msg_0"></span><br>  
 Msg_1: <span id="msg_1"></span><br>  
 Msg_2: <span id="msg_2"></span><br>  
+JSON: <span id="json"></span><br>
 </p>  
 
 <button onclick="submit()">Submit</button>
@@ -36,6 +37,7 @@ document.getElementById("num_1").innerHTML=JSONObject.num_1;
 document.getElementById("msg_0").innerHTML=JSONObject.msg_0;  
 document.getElementById("msg_1").innerHTML=JSONObject.msg_1;  
 document.getElementById("msg_2").innerHTML=JSONObject.msg_2;  
+document.getElementById("json").innerHTML=JSON.stringify(JSONObject);
 
 function submit() {
    document.getElementById("sent").innerHTML="All done";
