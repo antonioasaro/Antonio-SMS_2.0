@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "util.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define TOTAL_WHO 2
@@ -16,7 +17,7 @@ static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
 
 static AppSync sync;
-static uint8_t sync_buffer[32];
+static uint8_t sync_buffer[256];
 
 int who_sel = 0;
 int msg_sel = 0;
@@ -59,8 +60,11 @@ void config_provider(Window *window) {
 }
 
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
+static uint8_t i = 1;
+
 	switch (key) {
-    	case 1: strcpy(who_list[0], new_tuple->value->cstring);	break;
+    	case 1: strcpy(who_list[0], new_tuple->value->cstring); break;
+    	case 2: strcpy(who_list[1], "key 2"); break;
 /*
 		case 2: strcpy(who_list[1], new_tuple->value->cstring);	break;
     	case 3: strcpy(num_list[0], new_tuple->value->cstring);	break;
@@ -70,7 +74,7 @@ void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, con
     	case 7: strcpy(msg_list[2], new_tuple->value->cstring);	break;
 */		
 	}
-	who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0;
+	strcpy(msg_list[0], itoa(i));
 	update_nam(); update_msg();
 }
 
