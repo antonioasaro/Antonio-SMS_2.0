@@ -27,6 +27,9 @@ var JSONObject = {
   "msg_1":"No",
   "msg_2":"Ready to go?"
 };
+var JSONObject2 = {
+  "1":"Tony"
+};
 	
 
 document.getElementById("sent").innerHTML="Waiting ...";  
@@ -41,7 +44,7 @@ document.getElementById("json").innerHTML=JSON.stringify(JSONObject);
 
 function submit() {
    document.getElementById("sent").innerHTML="All done";
-   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject);
+   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject2);
 }	   
 </script>
 
