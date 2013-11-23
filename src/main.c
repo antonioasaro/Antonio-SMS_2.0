@@ -17,7 +17,7 @@ static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
 
 static AppSync sync;
-static uint8_t sync_buffer[256];
+static uint8_t sync_buffer[512];
 
 int who_sel = 0;
 int msg_sel = 0;
@@ -105,8 +105,8 @@ void handle_init(void) {
  
 	window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
 	
-	const int inbound_size = 128;
- 	const int outbound_size = 128;
+	const int inbound_size = APP_MESSAGE_INBOX_SIZE_MINIMUM;
+ 	const int outbound_size = APP_MESSAGE_OUTBOX_SIZE_MINIMUM;
  	app_message_open(inbound_size, outbound_size);	
 	
 	Tuplet initial_values[] = {
