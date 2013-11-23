@@ -5,9 +5,9 @@
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
-static char *who_list[] = {"AAAAAAAAAAAAAAAA",	"BBBBBBBBBBBBBBBB"};
-static char *num_list[] = {"1111111111111111",	"2222222222222222"};
-static char *msg_list[] = {"!!!!!!!!!!!!!!!!", 	"@@@@@@@@@@@@@@@@",	"################"};
+static char who_list[TOTAL_WHO][32] = {"                ",  "                "};
+static char num_list[TOTAL_WHO][32] = {"                ",	"                "};
+static char msg_list[TOTAL_MSG][32] = {"                ",	"                ",		"                "};
 //// static char *tmp_list[] = {"OK", "No", "Ready%20to%20go?"}; 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
 
 static AppSync sync;
-static uint8_t sync_buffer[512];
+static uint8_t sync_buffer[256];
 
 int who_sel = 0;
 int msg_sel = 0;
@@ -60,15 +60,14 @@ void config_provider(Window *window) {
 }
 
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
-static uint8_t i = 1;
-static char new_value[32];
 	
-	strcpy(new_value, new_tuple->value->cstring);
 	switch (key) {
-    	case 1: strcpy(who_list[0], new_value); break;
- 		case 2: strcpy(who_list[1], new_value); break;
-	}
-	strcpy(msg_list[0], itoa(i++)); 
+		case 1: strcpy(who_list[0], new_tuple->value->cstring); break; 	
+		case 2: strcpy(who_list[1], new_tuple->value->cstring); break; 	
+		case 5: strcpy(msg_list[0], new_tuple->value->cstring); break; 	
+		case 6: strcpy(msg_list[1], new_tuple->value->cstring); break; 	
+		case 7: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
+    }
 	update_nam(); update_msg();
 }
 
@@ -100,33 +99,36 @@ void handle_init(void) {
   	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(cmd_layer));
 
-    text_layer_set_text(who_layer, "To: -");
-    text_layer_set_text(msg_layer, "Msg: -");
+    text_layer_set_text(who_layer, "To:");
+    text_layer_set_text(msg_layer, "Msg:");
     text_layer_set_text(cmd_layer, "Send. Y/N?");
  
 	window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
 	
-	const int inbound_size = 64;
- 	const int outbound_size = 64;
+	const int inbound_size = 128;
+ 	const int outbound_size = 128;
  	app_message_open(inbound_size, outbound_size);	
 	
 	Tuplet initial_values[] = {
-    	TupletCString(1, "XXXXXXXXXXXXXXXX"),
-    	TupletCString(2, "YYYYYYYYYYYYYYYY")
+    	TupletCString(1, "XXXXXXXX"),
+    	TupletCString(2, "YYYYYYYY"),
+    	TupletCString(5, "JJJJJJJJ"),
+    	TupletCString(6, "KKKKKKKK"),
+    	TupletCString(7, "LLLLLLLL")
   	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 }
 
 void handle_deinit(void) {
-  app_sync_deinit(&sync);
-  text_layer_destroy(who_layer);
-  text_layer_destroy(msg_layer);
-  text_layer_destroy(cmd_layer);
-  window_destroy(window);
+  	app_sync_deinit(&sync);
+  	text_layer_destroy(who_layer);
+  	text_layer_destroy(msg_layer);
+  	text_layer_destroy(cmd_layer);
+  	window_destroy(window);
 }
 
 int main(void) {
-  handle_init();
-  app_event_loop();
-  handle_deinit();
+  	handle_init();
+  	app_event_loop();
+  	handle_deinit();
 }

@@ -1,10 +1,7 @@
 {
     "versionLabel": "1.0",
     "uuid": "5cc7ebd1-ea97-494c-ae7c-ecd05dd33a5a",
-    "appKeys": {
-        "who_0": 1,
-        "who_1": 2
-    },
+    "appKeys": {},
     "longName": "Antonio-SMS_2.0",
     "versionCode": 1,
     "capabilities": [
