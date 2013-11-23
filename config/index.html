@@ -16,21 +16,21 @@ JSON_1: <span id="json_1"></span><br>
 <script>
 var JSONObject_0 = {
   "who_0":"Tony",
-  "who_1":"Lori" 
+  "who_1":"Lori",
 ////   "num_0":"4165551111",
 ////   "num_1":"4165552222",
-////   "msg_0":"Yes",
-////   "msg_1":"No",
-////   "msg_2":"Ready to go?"
+   "msg_0":"Yes",
+   "msg_1":"No",
+   "msg_2":"Ready to go?"
 };
 var JSONObject_1 = {
   "1":"Tony",
-  "2":"Lori"
+  "2":"Lori",
 ////   "3":"4165551111",
 ////   "4":"4165552222",
-////   "5":"Yes",
-////   "6":"No",
-////   "7":"Ready to go?"
+  "5":"Yes",
+  "6":"No",
+  "7":"Ready to go?"
 };
 	
 
@@ -42,7 +42,7 @@ document.getElementById("json_1").innerHTML=JSON.stringify(JSONObject_1);
 
 function submit() {
    document.getElementById("sent").innerHTML="All done";
-   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject_0);
+   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject_1);
 }	   
 </script>
 
