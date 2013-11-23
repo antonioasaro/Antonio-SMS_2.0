@@ -5,9 +5,9 @@
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
-static char *who_list[] = {"AA",	"BB"};
-static char *num_list[] = {"111",	"222"};
-static char *msg_list[] = {"####", 	"$$$$",		"%%%%"};
+static char *who_list[] = {"AAAAAAAAAAAAAAAA",	"BBBBBBBBBBBBBBBB"};
+static char *num_list[] = {"1111111111111111",	"2222222222222222"};
+static char *msg_list[] = {"!!!!!!!!!!!!!!!!", 	"@@@@@@@@@@@@@@@@",	"################"};
 //// static char *tmp_list[] = {"OK", "No", "Ready%20to%20go?"}; 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
 
 static AppSync sync;
-static uint8_t sync_buffer[256];
+static uint8_t sync_buffer[512];
 
 int who_sel = 0;
 int msg_sel = 0;
@@ -61,20 +61,14 @@ void config_provider(Window *window) {
 
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
 static uint8_t i = 1;
-
+static char new_value[32];
+	
+	strcpy(new_value, new_tuple->value->cstring);
 	switch (key) {
-    	case 1: strcpy(who_list[0], new_tuple->value->cstring); break;
-    	case 2: strcpy(who_list[1], "key 2"); break;
-/*
-		case 2: strcpy(who_list[1], new_tuple->value->cstring);	break;
-    	case 3: strcpy(num_list[0], new_tuple->value->cstring);	break;
-    	case 4: strcpy(num_list[1], new_tuple->value->cstring);	break;
-    	case 5: strcpy(msg_list[0], new_tuple->value->cstring);	break;
-    	case 6: strcpy(msg_list[1], new_tuple->value->cstring);	break;
-    	case 7: strcpy(msg_list[2], new_tuple->value->cstring);	break;
-*/		
+    	case 1: strcpy(who_list[0], new_value); break;
+ 		case 2: strcpy(who_list[1], new_value); break;
 	}
-	strcpy(msg_list[0], itoa(i));
+	strcpy(msg_list[0], itoa(i++)); 
 	update_nam(); update_msg();
 }
 
@@ -117,14 +111,9 @@ void handle_init(void) {
  	app_message_open(inbound_size, outbound_size);	
 	
 	Tuplet initial_values[] = {
-    	TupletCString(1, who_list[0]),
-    	TupletCString(2, who_list[1]),
-    	TupletCString(3, num_list[0]),
-    	TupletCString(4, num_list[1]),
-    	TupletCString(5, msg_list[0]),
-    	TupletCString(6, msg_list[1]),
-    	TupletCString(7, msg_list[2])
- 	};
+    	TupletCString(1, "XXXXXXXXXXXXXXXX"),
+    	TupletCString(2, "YYYYYYYYYYYYYYYY")
+  	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 }
 
