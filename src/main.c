@@ -1,18 +1,22 @@
 #include <pebble.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define TOTAL_WHO 7
-#define TOTAL_MSG 8
-const char *nam_list[] = {"Antonio",                   "Lori",                      "Natalie",               "Alex",                  "Vince",                          "Dave",                      "Tim"};
-const char *who_list[] = {"4165621384@sms.rogers.com", "4162713650@sms.rogers.com", "4167974863@rogers.com", "4165096453@rogers.com", "4168804473@msg.koodomobile.com", "4164180128@sms.rogers.com", "tpers@antelsystems.com"};
-const char *msg_list[] = {"OK", "No", "Lunch?", "Ready%20to%20go?", "Just%20a%20sec", "Running%20late", "On%20my%20way%20home", "Busy,%20call%20you%20later"};    // repace spaces w/ "%20"
-const char *tmp_list[] = {"OK", "No", "Lunch?", "Ready to go?",     "Just a sec",     "Running late",   "On my way home",       "Busy, call you later"};
+#define TOTAL_WHO 2
+#define TOTAL_MSG 3
+
+static char *who_list[] = {"A",                         "B"};
+static char *num_list[] = {"4165551111@sms.rogers.com", "4165552222@sms.rogers.com"};
+static char *msg_list[] = {"OK", "No", "Ready to go?"};
+//// static char *tmp_list[] = {"OK", "No", "Ready%20to%20go?"}; 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 static Window *window;
 static TextLayer *who_layer;
 static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
+
+static AppSync sync;
+static uint8_t sync_buffer[32];
 
 int who_sel = 0;
 int msg_sel = 0;
@@ -23,14 +27,14 @@ void request_mail_to_sms (void) {
 }
 
 void up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
-   who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0;
-    strcpy(nam_text, "To: "); strcat(nam_text, nam_list[who_sel]);
+    who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0;
+    strcpy(nam_text, "To: "); strcat(nam_text, who_list[who_sel]);
     text_layer_set_text(who_layer, nam_text);
 }
 
 void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
     msg_sel++; if (msg_sel == TOTAL_MSG) msg_sel = 0;
-    strcpy(msg_text, "Msg: "); strcat(msg_text, tmp_list[msg_sel]);
+    strcpy(msg_text, "Msg: "); strcat(msg_text, msg_list[msg_sel]);
     text_layer_set_text(msg_layer, msg_text);
 }
 
@@ -46,6 +50,14 @@ void config_provider(Window *window) {
 	window_single_click_subscribe(BUTTON_ID_UP, up_single_click_handler);
 	window_single_click_subscribe(BUTTON_ID_DOWN, down_single_click_handler);
 	window_long_click_subscribe(BUTTON_ID_SELECT, 700, select_long_click_handler, select_long_click_release_handler);
+}
+
+void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context)
+{
+}
+
+static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void* context) {
+ 	APP_LOG(APP_LOG_LEVEL_DEBUG, "app error %d", app_message_error);
 }
 
 void handle_init(void) {
@@ -73,7 +85,17 @@ void handle_init(void) {
   	layer_add_child(root_layer, text_layer_get_layer(cmd_layer));
 
 	window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
- }
+	
+	const int inbound_size = 64;
+ 	const int outbound_size = 64;
+ 	app_message_open(inbound_size, outbound_size);	
+	
+	Tuplet initial_values[] = {
+    	TupletCString(1, who_list[0]),
+    	TupletCString(2, who_list[1])
+ 	};
+	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
+}
 
 void handle_deinit(void) {
   text_layer_destroy(who_layer);
