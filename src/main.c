@@ -110,11 +110,11 @@ void handle_init(void) {
  	app_message_open(inbound_size, outbound_size);	
 	
 	Tuplet initial_values[] = {
-    	TupletCString(1, "XXXXXXXX"),
-    	TupletCString(2, "YYYYYYYY"),
-    	TupletCString(5, "JJJJJJJJ"),
-    	TupletCString(6, "KKKKKKKK"),
-    	TupletCString(7, "LLLLLLLL")
+    	TupletCString(1, "        "),
+    	TupletCString(2, "        "),
+    	TupletCString(5, "        "),
+    	TupletCString(6, "        "),
+    	TupletCString(7, "        ")
   	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 }
