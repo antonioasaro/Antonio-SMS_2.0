@@ -39,12 +39,11 @@ document.getElementById("msg_2").value = msg_2;
 function submit() {
   document.getElementById("sent").innerHTML="All done";
 
-////  who_0 = document.getElementById("who_0");
-  localStorage.setItem("who_0", who_0);
-  localStorage.setItem("who_1", who_1);
-////  msg_0 = document.getElementById("msg_0"); localStorage.setItem("msg_0");
-////  msg_1 = document.getElementById("msg_1"); localStorage.setItem("msg_1");
-////  msg_2 = document.getElementById("msg_2"); localStorage.setItem("msg_2");
+  who_0 = document.getElementById("who_0").value; localStorage.setItem("who_0", who_0);
+  who_1 = document.getElementById("who_1").value; localStorage.setItem("who_1", who_1);
+  msg_0 = document.getElementById("msg_0").value; localStorage.setItem("msg_0", msg_0);
+  msg_1 = document.getElementById("msg_1").value; localStorage.setItem("msg_1", msg_1);
+  msg_2 = document.getElementById("msg_2").value; localStorage.setItem("msg_2", msg_2);
   var JSONObject = {
     "1": who_0,
     "2": who_1,
