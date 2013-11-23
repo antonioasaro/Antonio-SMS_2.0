@@ -66,7 +66,7 @@ void handle_init(void) {
   	text_layer_set_font(msg_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(msg_layer));
 
-	cmd_layer = text_layer_create(GRect(5, 40,  135, 60));
+	cmd_layer = text_layer_create(GRect(5, 110, 135, 40));
   	text_layer_set_text_color(cmd_layer, GColorBlack);
   	text_layer_set_background_color(cmd_layer, GColorClear);
   	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
