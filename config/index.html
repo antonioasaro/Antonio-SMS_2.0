@@ -7,11 +7,6 @@
 Sent: <span id="sent"></span><br>  
 Who_0: <span id="who_0"></span><br>  
 Who_1: <span id="who_1"></span><br>  
-Num_0: <span id="num_0"></span><br>  
-Num_1: <span id="num_1"></span><br>  
-Msg_0: <span id="msg_0"></span><br>  
-Msg_1: <span id="msg_1"></span><br>  
-Msg_2: <span id="msg_2"></span><br>  
 JSON_0: <span id="json_0"></span><br>
 JSON_1: <span id="json_1"></span><br>
 </p>  
@@ -21,38 +16,33 @@ JSON_1: <span id="json_1"></span><br>
 <script>
 var JSONObject_0 = {
   "who_0":"Tony",
-  "who_1":"Lori", 
-  "num_0":"4165551111",
-  "num_1":"4165552222",
-  "msg_0":"Yes",
-  "msg_1":"No",
-  "msg_2":"Ready to go?"
+  "who_1":"Lori" 
+////   "num_0":"4165551111",
+////   "num_1":"4165552222",
+////   "msg_0":"Yes",
+////   "msg_1":"No",
+////   "msg_2":"Ready to go?"
 };
 var JSONObject_1 = {
   "1":"Tony",
-  "2":"Lori",
-  "3":"4165551111",
-  "4":"4165552222",
-  "5":"Yes",
-  "6":"No",
-  "7":"Ready to go?"
+  "2":"Lori"
+////   "3":"4165551111",
+////   "4":"4165552222",
+////   "5":"Yes",
+////   "6":"No",
+////   "7":"Ready to go?"
 };
 	
 
 document.getElementById("sent").innerHTML="Waiting ...";  
 document.getElementById("who_0").innerHTML=JSONObject_0.who_0;  
 document.getElementById("who_1").innerHTML=JSONObject_0.who_1;  
-document.getElementById("num_0").innerHTML=JSONObject_0.num_0;  
-document.getElementById("num_1").innerHTML=JSONObject_0.num_1;  
-document.getElementById("msg_0").innerHTML=JSONObject_0.msg_0;  
-document.getElementById("msg_1").innerHTML=JSONObject_0.msg_1;  
-document.getElementById("msg_2").innerHTML=JSONObject_0.msg_2;  
 document.getElementById("json_0").innerHTML=JSON.stringify(JSONObject_0);
 document.getElementById("json_1").innerHTML=JSON.stringify(JSONObject_1);
 
 function submit() {
    document.getElementById("sent").innerHTML="All done";
-   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject_1);
+   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject_0);
 }	   
 </script>
 
