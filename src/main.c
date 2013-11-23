@@ -4,9 +4,9 @@
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
-static char *who_list[] = {"PersonA",                   "PersonB"};
-static char *num_list[] = {"4165551111@sms.rogers.com", "4165552222@sms.rogers.com"};
-static char *msg_list[] = {"OK", "No", "Ready to go?"};
+static char *who_list[] = {"A",                    		"B"};
+static char *num_list[] = {"4165551111@sms.rogers.com",	"4165552222@sms.rogers.com"};
+static char *msg_list[] = {"OK",	"No",	"Ready to go?"};
 //// static char *tmp_list[] = {"OK", "No", "Ready%20to%20go?"}; 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
