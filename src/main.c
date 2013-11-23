@@ -71,8 +71,8 @@ void handle_init(void) {
   	text_layer_set_background_color(cmd_layer, GColorClear);
   	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(cmd_layer));
-	
-	 window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
+
+	window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
  }
 
 void handle_deinit(void) {
