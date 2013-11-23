@@ -4,7 +4,7 @@
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
-static char *who_list[] = {"A",                         "B"};
+static char *who_list[] = {"PersonA",                   "PersonB"};
 static char *num_list[] = {"4165551111@sms.rogers.com", "4165552222@sms.rogers.com"};
 static char *msg_list[] = {"OK", "No", "Ready to go?"};
 //// static char *tmp_list[] = {"OK", "No", "Ready%20to%20go?"}; 
@@ -23,19 +23,25 @@ int msg_sel = 0;
 static char nam_text[64];
 static char msg_text[64];
 
-void request_mail_to_sms (void) {
+void request_mail_to_sms(void) {
 }
 
-void up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
-    who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0;
+void update_nam(void) {
     strcpy(nam_text, "To: "); strcat(nam_text, who_list[who_sel]);
     text_layer_set_text(who_layer, nam_text);
 }
 
-void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
-    msg_sel++; if (msg_sel == TOTAL_MSG) msg_sel = 0;
+void update_msg(void) {
     strcpy(msg_text, "Msg: "); strcat(msg_text, msg_list[msg_sel]);
     text_layer_set_text(msg_layer, msg_text);
+}
+
+void up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
+    who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0; update_nam();
+}
+
+void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
+    msg_sel++; if (msg_sel == TOTAL_MSG) msg_sel = 0; update_msg();
 }
 
 void select_long_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -53,6 +59,14 @@ void config_provider(Window *window) {
 }
 
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
+	switch (key) {
+    	case 1: 
+			strcpy(who_list[0], new_tuple->value->cstring);
+			break;
+		case 2:
+			break;
+	}
+	update_nam(); update_msg();
 }
 
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void* context) {
@@ -96,16 +110,17 @@ void handle_init(void) {
 	Tuplet initial_values[] = {
     	TupletCString(1, who_list[0]),
     	TupletCString(2, who_list[1]),
-    	TupletCString(2, num_list[0]),
-    	TupletCString(2, num_list[1]),
-    	TupletCString(2, msg_list[0]),
-    	TupletCString(2, msg_list[1]),
-    	TupletCString(2, msg_list[2])
+    	TupletCString(3, num_list[0]),
+    	TupletCString(4, num_list[1]),
+    	TupletCString(5, msg_list[0]),
+    	TupletCString(6, msg_list[1]),
+    	TupletCString(7, msg_list[2])
  	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 }
 
 void handle_deinit(void) {
+  app_sync_deinit(&sync);
   text_layer_destroy(who_layer);
   text_layer_destroy(msg_layer);
   text_layer_destroy(cmd_layer);
