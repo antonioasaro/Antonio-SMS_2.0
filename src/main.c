@@ -4,9 +4,9 @@
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
-static char *who_list[] = {"A",                    		"B"};
-static char *num_list[] = {"4165551111@sms.rogers.com",	"4165552222@sms.rogers.com"};
-static char *msg_list[] = {"OK",	"No",	"Ready to go?"};
+static char *who_list[] = {"AA",	"BB"};
+static char *num_list[] = {"111",	"222"};
+static char *msg_list[] = {"####", 	"$$$$",		"%%%%"};
 //// static char *tmp_list[] = {"OK", "No", "Ready%20to%20go?"}; 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,6 +66,7 @@ void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, con
 		case 2:
 			break;
 	}
+	who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0; 
 	update_nam(); update_msg();
 }
 

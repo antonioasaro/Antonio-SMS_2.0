@@ -3,16 +3,13 @@ Pebble.addEventListener('ready', function(e) {
 });
 
 Pebble.addEventListener('appmessage', function(e) {
-	var def = {"1": "Fred", "2": "Barney"};
-	Pebble.sendAppMessage(JSON.parse(abc));
-
 });
 
 Pebble.addEventListener('showConfiguration', function(e) {
-	Pebble.openURL('http://antonioasaro.site50.net/index_db.php');
+	Pebble.openURL('http://192.168.0.182/Pebble/SMS_2.0/index.html');
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
-	var abc = {"1": "Tony", "2": "Lori"};
-	Pebble.sendAppMessage(JSON.parse(abc));
+    console.log("Configuration window returned.");
+    Pebble.sendAppMessage(JSON.parse(e.response));
 });
