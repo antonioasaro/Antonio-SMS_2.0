@@ -52,8 +52,7 @@ void config_provider(Window *window) {
 	window_long_click_subscribe(BUTTON_ID_SELECT, 700, select_long_click_handler, select_long_click_release_handler);
 }
 
-void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context)
-{
+void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
 }
 
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void* context) {
@@ -84,6 +83,10 @@ void handle_init(void) {
   	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(cmd_layer));
 
+    text_layer_set_text(who_layer, "To: -");
+    text_layer_set_text(msg_layer, "Msg: -");
+    text_layer_set_text(cmd_layer, "Send. Y/N?");
+ 
 	window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
 	
 	const int inbound_size = 64;
@@ -92,7 +95,12 @@ void handle_init(void) {
 	
 	Tuplet initial_values[] = {
     	TupletCString(1, who_list[0]),
-    	TupletCString(2, who_list[1])
+    	TupletCString(2, who_list[1]),
+    	TupletCString(2, num_list[0]),
+    	TupletCString(2, num_list[1]),
+    	TupletCString(2, msg_list[0]),
+    	TupletCString(2, msg_list[1]),
+    	TupletCString(2, msg_list[2])
  	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 }
