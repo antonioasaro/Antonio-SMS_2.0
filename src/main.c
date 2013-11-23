@@ -60,13 +60,17 @@ void config_provider(Window *window) {
 
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
 	switch (key) {
-    	case 1: 
-			strcpy(who_list[0], new_tuple->value->cstring);
-			break;
-		case 2:
-			break;
+    	case 1: strcpy(who_list[0], new_tuple->value->cstring);	break;
+/*
+		case 2: strcpy(who_list[1], new_tuple->value->cstring);	break;
+    	case 3: strcpy(num_list[0], new_tuple->value->cstring);	break;
+    	case 4: strcpy(num_list[1], new_tuple->value->cstring);	break;
+    	case 5: strcpy(msg_list[0], new_tuple->value->cstring);	break;
+    	case 6: strcpy(msg_list[1], new_tuple->value->cstring);	break;
+    	case 7: strcpy(msg_list[2], new_tuple->value->cstring);	break;
+*/		
 	}
-	who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0; 
+	who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0;
 	update_nam(); update_msg();
 }
 
