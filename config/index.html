@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h2>JSON Object Creation in JavaScript</h2>
+<h2>SMS_2.0 Input Form in JavaScript</h2>
 
-<p>
-Sent: <span id="sent"></span><br>  
-Who_0: <span id="who_0"></span><br>  
-Who_1: <span id="who_1"></span><br>  
-JSON_0: <span id="json_0"></span><br>
-JSON_1: <span id="json_1"></span><br>
-</p>  
-
+<form id="form">
+  Name0: <input type="text" name="who_0" id="who_0"><br>
+  Name1: <input type="text" name="who_1" id="who_1"><br><br>
+  Msg0:  <input type="text" name="msg_0" id="msg_0"><br>
+  Msg1:  <input type="text" name="msg_1" id="msg_1"><br>
+  Msg2:  <input type="text" name="msg_2" id="msg_2"><br><br>
+</form>
 <button onclick="submit()">Submit</button>
 
-<script>
-var JSONObject_0 = {
-  "who_0":"Tony",
-  "who_1":"Lori",
-////   "num_0":"4165551111",
-////   "num_1":"4165552222",
-   "msg_0":"Yes",
-   "msg_1":"No",
-   "msg_2":"Ready to go?"
-};
-var JSONObject_1 = {
-  "1":"Tony",
-  "2":"Lori",
-////   "3":"4165551111",
-////   "4":"4165552222",
-  "5":"Yes",
-  "6":"No",
-  "7":"Ready to go?"
-};
-	
+<p>
+<span id="sent"></span><br>
+<span id="json"></span><br>
+</p>  
 
-document.getElementById("sent").innerHTML="Waiting ...";  
-document.getElementById("who_0").innerHTML=JSONObject_0.who_0;  
-document.getElementById("who_1").innerHTML=JSONObject_0.who_1;  
-document.getElementById("json_0").innerHTML=JSON.stringify(JSONObject_0);
-document.getElementById("json_1").innerHTML=JSON.stringify(JSONObject_1);
+<script>
+var who_0;
+var who_1;
+var msg_0;
+var msg_1;
+var msg_3;
+
+if (localStorage.getItem("who_0") === null) { who_0 = "----" } else { who_0 = localStorage.getItem("who_0") };
+if (localStorage.getItem("who_1") === null) { who_1 = "****" } else { who_1 = localStorage.getItem("who_1") };
+if (localStorage.getItem("msg_0") === null) { msg_0 = "Yes" } else { msg_0 = localStorage.getItem("msg_0") };
+if (localStorage.getItem("msg_1") === null) { msg_1 = "No"  } else { msg_1 = localStorage.getItem("msg_1") };
+if (localStorage.getItem("msg_2") === null) { msg_2 = "Ready to go?" } else { msg_2 = localStorage.getItem("msg_2") };
+
+document.getElementById("who_0").value = who_0;
+document.getElementById("who_1").value = who_1;
+document.getElementById("msg_0").value = msg_0;
+document.getElementById("msg_1").value = msg_1;
+document.getElementById("msg_2").value = msg_2;
 
 function submit() {
-   document.getElementById("sent").innerHTML="All done";
-   window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject_1);
+  document.getElementById("sent").innerHTML="All done";
+
+////  who_0 = document.getElementById("who_0");
+  localStorage.setItem("who_0", who_0);
+  localStorage.setItem("who_1", who_1);
+////  msg_0 = document.getElementById("msg_0"); localStorage.setItem("msg_0");
+////  msg_1 = document.getElementById("msg_1"); localStorage.setItem("msg_1");
+////  msg_2 = document.getElementById("msg_2"); localStorage.setItem("msg_2");
+  var JSONObject = {
+    "1": who_0,
+    "2": who_1,
+    "5": msg_0,
+    "6": msg_1,
+    "7": msg_2
+  };
+  document.getElementById("json").innerHTML=JSON.stringify(JSONObject);
+  window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject);
 }	   
 </script>
 
