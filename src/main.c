@@ -40,7 +40,7 @@ void request_mail_to_sms(void) {
 		TupletCString(2, "msg")
 	};
 	
-  	DictionaryIterator *iter;
+ 	DictionaryIterator *iter;
   	app_message_outbox_begin(&iter);
   	if (iter == NULL) return;
     dict_write_tuplet(iter, num_msg);
