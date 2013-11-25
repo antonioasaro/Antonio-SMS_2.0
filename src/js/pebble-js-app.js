@@ -25,7 +25,7 @@ Pebble.addEventListener('appmessage', function(e) {
 });
 
 Pebble.addEventListener('showConfiguration', function(e) {
-	Pebble.openURL('http://192.168.0.182/Pebble/SMS_2.0/index.html');
+	Pebble.openURL('http://antonioasaro.site50.net/config.html');
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
