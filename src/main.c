@@ -33,19 +33,12 @@ void request_mail_to_sms(void) {
 
 	strcpy(num, num_list[who_sel]); 
 	strcpy(msg, replace_char(msg_list[msg_sel], ' ', "%20"));
-	return;
-	
-	Tuplet num_msg[] = {
-		TupletCString(1, "nam"),
-		TupletCString(2, "msg")
-	};
-	
+
  	DictionaryIterator *iter;
-  	app_message_outbox_begin(&iter);
-  	if (iter == NULL) return;
-    dict_write_tuplet(iter, num_msg);
-    dict_write_end(iter);
-    app_message_outbox_send();
+	app_message_outbox_begin(&iter);
+	Tuplet value = TupletCString(99, "hello");
+	dict_write_tuplet(iter, &value);
+	app_message_outbox_send();
 }
 
 
@@ -96,6 +89,7 @@ void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, con
 	update_nam(); update_msg();
 }
 
+// fix this
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void* context) {
  	APP_LOG(APP_LOG_LEVEL_DEBUG, "app error %d", app_message_error);
 }
