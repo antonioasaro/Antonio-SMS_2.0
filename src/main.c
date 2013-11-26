@@ -20,10 +20,10 @@ static Window *window;
 static TextLayer *who_layer;
 static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
+static bool sending = false;
 
 int who_sel = 0;
 int msg_sel = 0;
-bool sending = false;
 
 
 void request_mail_to_sms(void) {
