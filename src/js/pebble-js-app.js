@@ -28,7 +28,7 @@ Pebble.addEventListener('appmessage', function(e) {
 
 Pebble.addEventListener('showConfiguration', function(e) {
     console.log("Showing configuration window.");
-	Pebble.openURL('http://antonioasaro.site50.net/config.html');
+	Pebble.openURL('http://antonioasaro.site50.net/sms_2.0.html');
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {

@@ -5,8 +5,9 @@
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
+static char frm[32];
 static char who_list[TOTAL_WHO][32]; // = {"                ",  "                "};
-static char num_list[TOTAL_WHO][32] = {"                ",	"                "};
+static char num_list[TOTAL_WHO][32]; // = {"                ",	"                "};
 static char msg_list[TOTAL_MSG][32]; // = {"                ",	"                ",		"                "};
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,35 +24,40 @@ static TextLayer *cmd_layer;
 
 int who_sel = 0;
 int msg_sel = 0;
-static char nam_text[64];
-static char msg_text[64];
+bool sending = false;
 
 
 void request_mail_to_sms(void) {
-    static char num[64];
-    static char msg[64];
+    static char *frmptr = frm;
+	static char num[32], *numptr = num;
+    static char msg[32], *msgptr = msg;
 
+	if (sending) return;
+	sending = true;
+	
 	strcpy(num, num_list[who_sel]); 
 	strcpy(msg, replace_char(msg_list[msg_sel], ' ', "%20"));
 
  	DictionaryIterator *iter;
 	app_message_outbox_begin(&iter);
-	Tuplet value[] = {
-		TupletCString(100, "from_me"),
-		TupletCString(101, "to_you"),
-		TupletCString(102, "with%20love")
-	};
-	dict_write_tuplet(iter, value);
+	Tuplet frm_val = TupletCString(100, frmptr);
+	Tuplet num_val = TupletCString(101, numptr);
+	Tuplet msg_val = TupletCString(102, msgptr);
+	dict_write_tuplet(iter, &frm_val);
+	dict_write_tuplet(iter, &num_val);
+	dict_write_tuplet(iter, &msg_val);
 	app_message_outbox_send();
 }
 
 
 void update_nam(void) {
+    static char nam_text[64];
     strcpy(nam_text, "To: "); strcat(nam_text, who_list[who_sel]);
     text_layer_set_text(who_layer, nam_text);
 }
 
 void update_msg(void) {
+    static char msg_text[64];
     strcpy(msg_text, "Msg: "); strcat(msg_text, msg_list[msg_sel]);
     text_layer_set_text(msg_layer, msg_text);
 }
@@ -84,13 +90,17 @@ void config_provider(Window *window) {
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
 	
 	switch (key) {
-		case 1: strcpy(who_list[0], new_tuple->value->cstring); break; 	
-		case 2: strcpy(who_list[1], new_tuple->value->cstring); break; 	
-		case 5: strcpy(msg_list[0], new_tuple->value->cstring); break; 	
-		case 6: strcpy(msg_list[1], new_tuple->value->cstring); break; 	
-		case 7: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
+		case 1: strcpy(frm,         new_tuple->value->cstring); break; 	
+		case 2: strcpy(who_list[0], new_tuple->value->cstring); break; 	
+		case 3: strcpy(num_list[0], new_tuple->value->cstring); break; 	
+		case 4: strcpy(who_list[1], new_tuple->value->cstring); break; 	
+		case 5: strcpy(num_list[1], new_tuple->value->cstring); break; 	
+		case 6: strcpy(msg_list[0], new_tuple->value->cstring); break; 	
+		case 7: strcpy(msg_list[1], new_tuple->value->cstring); break; 	
+		case 8: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
     }
-	update_nam(); update_msg();
+	update_nam(); 
+	update_msg();
 }
 
 // fix this
@@ -101,7 +111,8 @@ static void sync_error_callback(DictionaryResult dict_error, AppMessageResult ap
 
 static void handle_timer(void *data)
 {
-    text_layer_set_text(cmd_layer, "Send. Y/N?");
+    sending = false;
+	text_layer_set_text(cmd_layer, "Send. Y/N?");
 }
 
 
@@ -142,9 +153,12 @@ void handle_init(void) {
 	Tuplet initial_values[] = {
     	TupletCString(1, "        "),
     	TupletCString(2, "        "),
+    	TupletCString(3, "        "),
+    	TupletCString(4, "        "),
     	TupletCString(5, "        "),
     	TupletCString(6, "        "),
-    	TupletCString(7, "        ")
+    	TupletCString(7, "        "),
+    	TupletCString(8, "        ")
   	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 }
