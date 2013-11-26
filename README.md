@@ -3,7 +3,7 @@ Antonio-SMS_2.0
 
 Enter: <br>
 -- frm (your cell #), <br>
--- who/num (friend's name/email address that supports text) <br> 
+-- who/num (friend's name/his or her's email address that supports text) <br> 
 -- and msg <br>
 on configuration page. <br><br>
 Scroll thru who + msg to select options. <br>
