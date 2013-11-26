@@ -17,6 +17,7 @@ static uint8_t sync_buffer[512];
 static void handle_timer(void *data);
 
 static Window *window;
+static TextLayer *frm_layer;
 static TextLayer *who_layer;
 static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
@@ -49,7 +50,13 @@ void request_mail_to_sms(void) {
 }
 
 
-void update_nam(void) {
+void update_frm(void) {
+    static char frm_text[64];
+    strcpy(frm_text, "Frm: "); strcat(frm_text, frm);
+    text_layer_set_text(frm_layer, frm_text);
+}
+
+void update_who(void) {
     static char nam_text[64];
     strcpy(nam_text, "To: "); strcat(nam_text, who_list[who_sel]);
     text_layer_set_text(who_layer, nam_text);
@@ -63,7 +70,7 @@ void update_msg(void) {
 
 
 void up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
-    who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0; update_nam();
+    who_sel++; if (who_sel == TOTAL_WHO) who_sel = 0; update_who();
 }
 
 void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -98,7 +105,8 @@ void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, con
 		case 7: strcpy(msg_list[1], new_tuple->value->cstring); break; 	
 		case 8: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
     }
-	update_nam(); 
+	update_frm(); 
+	update_who(); 
 	update_msg();
 }
 
@@ -121,16 +129,22 @@ void handle_init(void) {
 
   	Layer *root_layer = window_get_root_layer(window);
 
-  	who_layer = text_layer_create(GRect(5, 10,  135, 30));
+  	frm_layer = text_layer_create(GRect(5, 10,  135, 30));
+  	text_layer_set_text_color(frm_layer, GColorBlack);
+  	text_layer_set_background_color(frm_layer, GColorClear);
+  	text_layer_set_font(frm_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
+  	layer_add_child(root_layer, text_layer_get_layer(frm_layer));
+
+	who_layer = text_layer_create(GRect(5, 40,  135, 30));
   	text_layer_set_text_color(who_layer, GColorBlack);
   	text_layer_set_background_color(who_layer, GColorClear);
-  	text_layer_set_font(who_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  	text_layer_set_font(who_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(who_layer));
 
-	msg_layer = text_layer_create(GRect(5, 40,  135, 60));
+	msg_layer = text_layer_create(GRect(5, 60,  135, 60));
   	text_layer_set_text_color(msg_layer, GColorBlack);
   	text_layer_set_background_color(msg_layer, GColorClear);
-  	text_layer_set_font(msg_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+  	text_layer_set_font(msg_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(msg_layer));
 
 	cmd_layer = text_layer_create(GRect(5, 110, 135, 40));
@@ -165,6 +179,7 @@ void handle_init(void) {
 
 void handle_deinit(void) {
   	app_sync_deinit(&sync);
+  	text_layer_destroy(frm_layer);
   	text_layer_destroy(who_layer);
   	text_layer_destroy(msg_layer);
   	text_layer_destroy(cmd_layer);
