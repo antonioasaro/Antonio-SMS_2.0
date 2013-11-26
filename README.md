@@ -8,7 +8,7 @@ Enter: <br>
 on configuration page. <br><br>
 On pebble ... <br>
 Scroll thru who + msg on pebble (top button for who, bottom for msg) to select options. <br>
-Press select (middle) button on pebble to send sms (thru email) <br><br>
+Press select (middle) button to send sms (thru email) <br><br>
 
 e.g. <br>
 frm = 4165551212 <br>
