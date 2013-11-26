@@ -1,8 +1,9 @@
-function sendSMS() {
+function sendSMS(frm, num, msg) {
   console.log("Attempt to sendSMS.");
+  console.log(frm, num, msg);
   var req = new XMLHttpRequest();
-  req.open('GET', "http://antonioasaro.site50.net/mail_to_sms.php?cmd=test&who=4165621384@sms.rogers.com&msg=Hi", true);
- // req.open('GET', "http://192.168.0.182/Pebble/SMS_2.0/mail_to_sms.php?cmd=test" +"&num=" + num + "&msg=" + msg, true);
+  req.open('GET', "http://antonioasaro.site50.net/sms_2.0.php?cmd=test&frm="+frm+"&num="+num+"&msg="+msg, true); 
+////		  4165621384&who=4165621384@sms.rogers.com&msg=Hi", true);
   req.onload = function(e) {
     if (req.readyState == 4) {
       if(req.status == 200) {
@@ -21,9 +22,8 @@ Pebble.addEventListener('ready', function(e) {
 
 Pebble.addEventListener('appmessage', function(e) {
 	console.log("Appmessage received.");
-	console.log(e.payload.frm);
     console.log(JSON.stringify(e.payload));
- 	sendSMS();
+ 	sendSMS(e.payload.frm, e.payload.num, e.payload.msg);
 });
 
 Pebble.addEventListener('showConfiguration', function(e) {

@@ -1,20 +1,19 @@
 #include <pebble.h>
 #include "util.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////
 #define TOTAL_WHO 2
 #define TOTAL_MSG 3
 
 static char frm[32];
-static char who_list[TOTAL_WHO][32]; // = {"                ",  "                "};
-static char num_list[TOTAL_WHO][32]; // = {"                ",	"                "};
-static char msg_list[TOTAL_MSG][32]; // = {"                ",	"                ",		"                "};
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static char who_list[TOTAL_WHO][32];
+static char num_list[TOTAL_WHO][32];
+static char msg_list[TOTAL_MSG][32];
+///////////////////////////////////////////////
 
 static AppTimer *timer;
 static AppSync sync;
 static uint8_t sync_buffer[512];
-
 static void handle_timer(void *data);
 
 static Window *window;
@@ -83,7 +82,7 @@ void select_long_click_release_handler(ClickRecognizerRef recognizer, void *cont
 void config_provider(Window *window) {
 	window_single_click_subscribe(BUTTON_ID_UP, up_single_click_handler);
 	window_single_click_subscribe(BUTTON_ID_DOWN, down_single_click_handler);
-	window_long_click_subscribe(BUTTON_ID_SELECT, 700, select_long_click_handler, select_long_click_release_handler);
+	window_long_click_subscribe(BUTTON_ID_SELECT, 1000, select_long_click_handler, select_long_click_release_handler);
 }
 
 
@@ -148,7 +147,7 @@ void handle_init(void) {
 	
 	const int inbound_size = APP_MESSAGE_INBOX_SIZE_MINIMUM;
  	const int outbound_size = APP_MESSAGE_OUTBOX_SIZE_MINIMUM;
- 	app_message_open(inbound_size, outbound_size);	
+ 	app_message_open(512, 512);	
 	
 	Tuplet initial_values[] = {
     	TupletCString(1, "        "),
