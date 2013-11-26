@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>SMS_2.0 Input Form in JavaScript</h2>
+
+<form id="form">
+  From: <input type="text" name="frm"   id="frm"><br><br>
+  Who0: <input type="text" name="who_0" id="who_0"><br>
+  Num0: <input type="text" name="num_0" id="num_0"><br>
+  Who1: <input type="text" name="who_1" id="who_1"><br>
+  Num1: <input type="text" name="num_1" id="num_1"><br><br>
+  Msg0: <input type="text" name="msg_0" id="msg_0"><br>
+  Msg1: <input type="text" name="msg_1" id="msg_1"><br>
+  Msg2: <input type="text" name="msg_2" id="msg_2"><br><br>
+</form>
+<button onclick="submit()">Submit</button>
+
+<p>
+<span id="sent"></span><br>
+<span id="json"></span><br>
+</p>  
+
+<script>
+var frm;
+var who_0;
+var num_0;
+var who_1;
+var num_1;
+var msg_0;
+var msg_1;
+var msg_3;
+
+if (localStorage.getItem("frm")   === null) { frm   = "===="; } else { frm   = localStorage.getItem("frm");   };
+if (localStorage.getItem("who_0") === null) { who_0 = "----"; } else { who_0 = localStorage.getItem("who_0"); };
+if (localStorage.getItem("num_0") === null) { num_0 = "----"; } else { num_0 = localStorage.getItem("num_0"); };
+if (localStorage.getItem("who_1") === null) { who_1 = "****"; } else { who_1 = localStorage.getItem("who_1"); };
+if (localStorage.getItem("num_1") === null) { num_1 = "****"; } else { num_1 = localStorage.getItem("num_1"); };
+if (localStorage.getItem("msg_0") === null) { msg_0 = "Yes"; }  else { msg_0 = localStorage.getItem("msg_0"); };
+if (localStorage.getItem("msg_1") === null) { msg_1 = "No";  }  else { msg_1 = localStorage.getItem("msg_1"); };
+if (localStorage.getItem("msg_2") === null) { msg_2 = "Bye"; }  else { msg_2 = localStorage.getItem("msg_2"); };
+
+document.getElementById("frm").value   = frm;
+document.getElementById("who_0").value = who_0;
+document.getElementById("num_0").value = num_0;
+document.getElementById("who_1").value = who_1;
+document.getElementById("num_1").value = num_1;
+document.getElementById("msg_0").value = msg_0;
+document.getElementById("msg_1").value = msg_1;
+document.getElementById("msg_2").value = msg_2;
+
+function submit() {
+  document.getElementById("sent").innerHTML="All done";
+
+  frm   = document.getElementById("frm").value;   localStorage.setItem("frm",   frm);
+  who_0 = document.getElementById("who_0").value; localStorage.setItem("who_0", who_0);
+  num_0 = document.getElementById("num_0").value; localStorage.setItem("num_0", num_0);
+  who_1 = document.getElementById("who_1").value; localStorage.setItem("who_1", who_1);
+  num_1 = document.getElementById("num_1").value; localStorage.setItem("num_1", num_1);
+  msg_0 = document.getElementById("msg_0").value; localStorage.setItem("msg_0", msg_0);
+  msg_1 = document.getElementById("msg_1").value; localStorage.setItem("msg_1", msg_1);
+  msg_2 = document.getElementById("msg_2").value; localStorage.setItem("msg_2", msg_2);
+
+  var JSONObject = {
+    "1": frm,
+    "2": who_0,
+    "3": num_0,
+    "4": who_1,
+    "5": num_1,
+    "6": msg_0,
+    "7": msg_1,
+    "8": msg_2
+  };
+  document.getElementById("json").innerHTML=JSON.stringify(JSONObject);
+  window.location.href = "pebblejs://close#" + JSON.stringify(JSONObject);
+}	   
+</script>
+
+</body>
+</html>
