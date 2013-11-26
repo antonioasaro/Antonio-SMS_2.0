@@ -40,9 +40,11 @@ void request_mail_to_sms(void) {
 
  	DictionaryIterator *iter;
 	app_message_outbox_begin(&iter);
+	Tuplet cfg_val = TupletCString(999, "sms");
 	Tuplet frm_val = TupletCString(100, frmptr);
 	Tuplet num_val = TupletCString(101, numptr);
 	Tuplet msg_val = TupletCString(102, msgptr);
+	dict_write_tuplet(iter, &cfg_val);
 	dict_write_tuplet(iter, &frm_val);
 	dict_write_tuplet(iter, &num_val);
 	dict_write_tuplet(iter, &msg_val);
@@ -174,6 +176,13 @@ void handle_init(void) {
     	TupletCString(8, "        ")
   	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
+
+ 	psleep(2000);
+	DictionaryIterator *iter;
+	app_message_outbox_begin(&iter);
+	Tuplet cfg_val = TupletCString(999,  "cfg");
+	dict_write_tuplet(iter, &cfg_val);
+	app_message_outbox_send();
 }
 
 

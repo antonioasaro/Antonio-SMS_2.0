@@ -22,7 +22,22 @@ Pebble.addEventListener('ready', function(e) {
 Pebble.addEventListener('appmessage', function(e) {
 	console.log("Appmessage received.");
     console.log(JSON.stringify(e.payload));
- 	sendSMS(e.payload.frm, e.payload.num, e.payload.msg);
+
+	action = e.payload.cmd;
+  	if (typeof(action) != 'undefined') {
+		if (action == 'cfg') {
+    		var settings = localStorage.getItem('SMS');
+    		if (typeof(settings) == 'string') {
+	      		try {
+					console.log("GetItem settings.");
+ 	       			Pebble.sendAppMessage(JSON.parse(settings));
+ 	     		} catch (e) {
+  	    		}
+			}
+		} else {
+			sendSMS(e.payload.frm, e.payload.num, e.payload.msg);
+		}
+    }
 });
 
 Pebble.addEventListener('showConfiguration', function(e) {
@@ -34,4 +49,5 @@ Pebble.addEventListener('webviewclosed', function(e) {
     console.log("Configuration window returned.");
     console.log(e.response);
 	Pebble.sendAppMessage(JSON.parse(e.response));
+    localStorage.setItem('SMS', e.response);
 });
