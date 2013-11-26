@@ -1,7 +1,7 @@
 Antonio-SMS_2.0
 ===============
 
-Enter: 
+Enter: <br>
 -- frm (your cell #), 
 -- who/num (friend's name/email address that supports text) 
 -- and msg
