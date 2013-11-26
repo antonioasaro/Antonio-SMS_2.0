@@ -6,7 +6,8 @@ Enter: <br>
 -- who/num (friend's name/his or her's email address that supports text) <br> 
 -- and msg <br>
 on configuration page. <br><br>
-Scroll thru who + msg to select options. <br>
+On pebble ... <br>
+Scroll thru who + msg on pebble (top button for who, bottom for msg) to select options. <br>
 Press select (middle) button on pebble to send sms (thru email) <br><br>
 
 e.g. <br>
