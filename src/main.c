@@ -36,8 +36,12 @@ void request_mail_to_sms(void) {
 
  	DictionaryIterator *iter;
 	app_message_outbox_begin(&iter);
-	Tuplet value = TupletCString(99, "hello");
-	dict_write_tuplet(iter, &value);
+	Tuplet value[] = {
+		TupletCString(100, "from_me"),
+		TupletCString(101, "to_you"),
+		TupletCString(102, "with%20love")
+	};
+	dict_write_tuplet(iter, value);
 	app_message_outbox_send();
 }
 
