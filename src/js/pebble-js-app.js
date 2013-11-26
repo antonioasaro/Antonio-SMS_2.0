@@ -3,7 +3,6 @@ function sendSMS(frm, num, msg) {
   console.log(frm, num, msg);
   var req = new XMLHttpRequest();
   req.open('GET', "http://antonioasaro.site50.net/sms_2.0.php?cmd=test&frm="+frm+"&num="+num+"&msg="+msg, true); 
-////		  4165621384&who=4165621384@sms.rogers.com&msg=Hi", true);
   req.onload = function(e) {
     if (req.readyState == 4) {
       if(req.status == 200) {
