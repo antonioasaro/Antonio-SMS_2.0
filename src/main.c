@@ -2,8 +2,8 @@
 #include "util.h"
 
 ///////////////////////////////////////////////
-#define TOTAL_WHO 2
-#define TOTAL_MSG 3
+#define TOTAL_WHO 4
+#define TOTAL_MSG 5
 
 static char frm[32];
 static char who_list[TOTAL_WHO][32];
@@ -98,14 +98,20 @@ void config_provider(Window *window) {
 void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
 	
 	switch (key) {
-		case 1: strcpy(frm,         new_tuple->value->cstring); break; 	
-		case 2: strcpy(who_list[0], new_tuple->value->cstring); break; 	
-		case 3: strcpy(num_list[0], new_tuple->value->cstring); break; 	
-		case 4: strcpy(who_list[1], new_tuple->value->cstring); break; 	
-		case 5: strcpy(num_list[1], new_tuple->value->cstring); break; 	
-		case 6: strcpy(msg_list[0], new_tuple->value->cstring); break; 	
-		case 7: strcpy(msg_list[1], new_tuple->value->cstring); break; 	
-		case 8: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
+		case 1:  strcpy(frm,         new_tuple->value->cstring); break; 	
+		case 2:  strcpy(who_list[0], new_tuple->value->cstring); break; 	
+		case 3:  strcpy(num_list[0], new_tuple->value->cstring); break; 	
+		case 4:  strcpy(who_list[1], new_tuple->value->cstring); break; 	
+		case 5:  strcpy(num_list[1], new_tuple->value->cstring); break; 	
+		case 6:  strcpy(who_list[2], new_tuple->value->cstring); break; 	
+		case 7:  strcpy(num_list[2], new_tuple->value->cstring); break; 	
+		case 8:  strcpy(who_list[3], new_tuple->value->cstring); break; 	
+		case 9:  strcpy(num_list[3], new_tuple->value->cstring); break; 	
+		case 10: strcpy(msg_list[0], new_tuple->value->cstring); break; 	
+		case 11: strcpy(msg_list[1], new_tuple->value->cstring); break; 	
+		case 12: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
+		case 13: strcpy(msg_list[3], new_tuple->value->cstring); break; 	
+		case 14: strcpy(msg_list[4], new_tuple->value->cstring); break; 	
     }
 	update_frm(); 
 	update_who(); 
@@ -166,14 +172,20 @@ void handle_init(void) {
  	app_message_open(512, 512);	
 	
 	Tuplet initial_values[] = {
-    	TupletCString(1, "        "),
-    	TupletCString(2, "        "),
-    	TupletCString(3, "        "),
-    	TupletCString(4, "        "),
-    	TupletCString(5, "        "),
-    	TupletCString(6, "        "),
-    	TupletCString(7, "        "),
-    	TupletCString(8, "        ")
+    	TupletCString(1,  "        "),
+    	TupletCString(2,  "        "),
+    	TupletCString(3,  "        "),
+    	TupletCString(4,  "        "),
+    	TupletCString(5,  "        "),
+    	TupletCString(6,  "        "),
+    	TupletCString(7,  "        "),
+    	TupletCString(8,  "        "),
+    	TupletCString(9,  "        "),
+    	TupletCString(10, "        "),
+    	TupletCString(11, "        "),
+    	TupletCString(12, "        "),
+    	TupletCString(13, "        "),
+    	TupletCString(14, "        ")
   	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 
