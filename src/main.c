@@ -10,6 +10,7 @@ static char frm[32];
 static char who_list[TOTAL_WHO][32];
 static char num_list[TOTAL_WHO][32];
 static char msg_list[TOTAL_MSG][32];
+static char sts[32];
 ///////////////////////////////////////////////
 
 static AppTimer *timer;
@@ -41,16 +42,15 @@ void request_mail_to_sms(void) {
 	strcpy(msg, replace_char(msg_list[msg_sel], ' ', "%20"));
 
 	app_message_outbox_begin(&iter);
-	Tuplet rqs_val = TupletCString(998, "request_sms");
-	Tuplet frm_val = TupletCString(100, frmptr);
-	Tuplet num_val = TupletCString(101, numptr);
-	Tuplet msg_val = TupletCString(102, msgptr);
+	Tuplet rqs_val = TupletCString(98, "request_sms");
+	Tuplet frm_val = TupletCString(50, frmptr);
+	Tuplet num_val = TupletCString(51, numptr);
+	Tuplet msg_val = TupletCString(52, msgptr);
 	dict_write_tuplet(iter, &rqs_val);
 	dict_write_tuplet(iter, &frm_val);
 	dict_write_tuplet(iter, &num_val);
 	dict_write_tuplet(iter, &msg_val);
 	app_message_outbox_send();
-
 }
 
 
@@ -113,6 +113,10 @@ void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, con
 		case 12: strcpy(msg_list[2], new_tuple->value->cstring); break; 	
 		case 13: strcpy(msg_list[3], new_tuple->value->cstring); break; 	
 		case 14: strcpy(msg_list[4], new_tuple->value->cstring); break; 	
+		case 99: 
+			strcpy(sts,         new_tuple->value->cstring); 
+			if (sending) text_layer_set_text(cmd_layer, sts);
+			break; 	
     }
 	update_frm(); 
 	update_who(); 
@@ -131,19 +135,9 @@ void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, voi
 }
 
 void in_received_handler(DictionaryIterator *received, void *context) {
-	text_layer_set_text(cmd_layer, "in_recieved_handler");
-	Tuple *val = dict_find(received, 999);
-	if (val) {
-		if (val->value->data == 0) {
-			text_layer_set_text(cmd_layer, "Success.");
-		} else {
-			text_layer_set_text(cmd_layer, "Failed.");
-		}
-    }
 }
 
 void in_dropped_handler(AppMessageResult reason, void *context) {
-	text_layer_set_text(cmd_layer, "in_dropped_handler");
 }
 
 
@@ -208,13 +202,14 @@ void handle_init(void) {
     	TupletCString(11, "        "),
     	TupletCString(12, "        "),
     	TupletCString(13, "        "),
-    	TupletCString(14, "        ")
+    	TupletCString(14, "        "),
+		TupletCString(99, "        ")
   	};
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 
  	psleep(2000);
 	app_message_outbox_begin(&iter);
-	Tuplet cmd_val = TupletCString(998, "rd_settings");
+	Tuplet cmd_val = TupletCString(98, "rd_settings");
 	dict_write_tuplet(iter, &cmd_val);
 	app_message_outbox_send();
 }

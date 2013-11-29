@@ -2,10 +2,10 @@
     "versionLabel": "1.1",
     "uuid": "5cc7ebd1-ea97-494c-ae7c-ecd05dd33a5a",
     "appKeys": {
-        "msg": 102,
-        "cmd": 998,
-        "num": 101,
-        "frm": 100
+        "msg": 52,
+        "cmd": 98,
+        "num": 51,
+        "frm": 50
     },
     "longName": "Antonio-SMS_2.0",
     "versionCode": 1,

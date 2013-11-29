@@ -7,9 +7,10 @@ function requestSMS(frm, num, msg) {
     	if (req.readyState == 4) {
       		if(req.status == 200) {
         		console.log("Success.");
-				Pebble.sendAppMessage({"999":"1"});
+				Pebble.sendAppMessage({"99":"Success!!"});
       		} else {
-        		console.log("Error.");
+        		console.log("Failed.");
+ 				Pebble.sendAppMessage({"99":"Failed!!"});
       		}
     	}
   	}
