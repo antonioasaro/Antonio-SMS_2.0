@@ -41,11 +41,11 @@ void request_mail_to_sms(void) {
 	strcpy(msg, replace_char(msg_list[msg_sel], ' ', "%20"));
 
 	app_message_outbox_begin(&iter);
-	Tuplet ops_val = TupletCString(998, "request_sms");
+	Tuplet rqs_val = TupletCString(998, "request_sms");
 	Tuplet frm_val = TupletCString(100, frmptr);
 	Tuplet num_val = TupletCString(101, numptr);
 	Tuplet msg_val = TupletCString(102, msgptr);
-	dict_write_tuplet(iter, &ops_val);
+	dict_write_tuplet(iter, &rqs_val);
 	dict_write_tuplet(iter, &frm_val);
 	dict_write_tuplet(iter, &num_val);
 	dict_write_tuplet(iter, &msg_val);

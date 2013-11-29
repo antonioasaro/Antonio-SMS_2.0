@@ -5,8 +5,7 @@
         "msg": 102,
         "cmd": 998,
         "num": 101,
-        "frm": 100,
-        "sts": 999
+        "frm": 100
     },
     "longName": "Antonio-SMS_2.0",
     "versionCode": 1,
