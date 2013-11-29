@@ -34,6 +34,7 @@ void request_mail_to_sms(void) {
     static char msg[32], *msgptr = msg;
 
 	if (sending) return;
+  	text_layer_set_text(cmd_layer, "Sending ...");
 	sending = true;
 	
 	strcpy(num, num_list[who_sel]); 
@@ -81,7 +82,6 @@ void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
 }
 
 void select_long_click_handler(ClickRecognizerRef recognizer, void *context) {
-  	text_layer_set_text(cmd_layer, "Sending ...");
 	request_mail_to_sms();
     timer = app_timer_register(5000, &handle_timer, NULL);
 }
@@ -125,11 +125,9 @@ static void sync_error_callback(DictionaryResult dict_error, AppMessageResult ap
 }
 
 void out_sent_handler(DictionaryIterator *sent, void *context) {
-	text_layer_set_text(cmd_layer, "out_sent_handler");
 }
 
 void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
-	text_layer_set_text(cmd_layer, "out_failed_handler");
 }
 
 void in_received_handler(DictionaryIterator *received, void *context) {
@@ -152,7 +150,7 @@ void in_dropped_handler(AppMessageResult reason, void *context) {
 static void handle_timer(void *data)
 {
     sending = false;
-	text_layer_set_text(cmd_layer, "Send. Y/N?");
+	text_layer_set_text(cmd_layer, "Send. Y/N? -->");
 }
 
 
@@ -168,19 +166,19 @@ void handle_init(void) {
   	text_layer_set_font(frm_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(frm_layer));
 
-	who_layer = text_layer_create(GRect(5, 40,  135, 30));
+	who_layer = text_layer_create(GRect(5, 100,  135, 30));
   	text_layer_set_text_color(who_layer, GColorBlack);
   	text_layer_set_background_color(who_layer, GColorClear);
   	text_layer_set_font(who_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(who_layer));
 
-	msg_layer = text_layer_create(GRect(5, 60,  135, 60));
+	msg_layer = text_layer_create(GRect(5, 120,  135, 30));
   	text_layer_set_text_color(msg_layer, GColorBlack);
   	text_layer_set_background_color(msg_layer, GColorClear);
   	text_layer_set_font(msg_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(msg_layer));
 
-	cmd_layer = text_layer_create(GRect(5, 110, 135, 40));
+	cmd_layer = text_layer_create(GRect(5, 60, 135, 30));
   	text_layer_set_text_color(cmd_layer, GColorBlack);
   	text_layer_set_background_color(cmd_layer, GColorClear);
   	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
@@ -188,7 +186,7 @@ void handle_init(void) {
 
     text_layer_set_text(who_layer, "To:");
     text_layer_set_text(msg_layer, "Msg:");
-    text_layer_set_text(cmd_layer, "Send. Y/N?");
+    text_layer_set_text(cmd_layer, "Send. Y/N? -->");
  
 	window_set_click_config_provider(window, (ClickConfigProvider) config_provider);
 	
