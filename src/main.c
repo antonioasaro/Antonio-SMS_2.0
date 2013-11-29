@@ -15,6 +15,8 @@ static AppTimer *timer;
 static AppSync sync;
 static uint8_t sync_buffer[512];
 static void handle_timer(void *data);
+static DictionaryIterator *iter;
+
 
 static Window *window;
 static TextLayer *frm_layer;
@@ -38,17 +40,17 @@ void request_mail_to_sms(void) {
 	strcpy(num, num_list[who_sel]); 
 	strcpy(msg, replace_char(msg_list[msg_sel], ' ', "%20"));
 
- 	DictionaryIterator *iter;
 	app_message_outbox_begin(&iter);
-	Tuplet cfg_val = TupletCString(999, "sms");
+	Tuplet ops_val = TupletCString(998, "request_sms");
 	Tuplet frm_val = TupletCString(100, frmptr);
 	Tuplet num_val = TupletCString(101, numptr);
 	Tuplet msg_val = TupletCString(102, msgptr);
-	dict_write_tuplet(iter, &cfg_val);
+	dict_write_tuplet(iter, &ops_val);
 	dict_write_tuplet(iter, &frm_val);
 	dict_write_tuplet(iter, &num_val);
 	dict_write_tuplet(iter, &msg_val);
 	app_message_outbox_send();
+
 }
 
 
@@ -118,9 +120,21 @@ void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, con
 	update_msg();
 }
 
-// fix this
+
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void* context) {
  	APP_LOG(APP_LOG_LEVEL_DEBUG, "app error %d", app_message_error);
+}
+
+void out_sent_handler(DictionaryIterator *sent, void *context) {
+}
+
+void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
+}
+
+void in_received_handler(DictionaryIterator *received, void *context) {
+}
+
+void in_dropped_handler(AppMessageResult reason, void *context) {
 }
 
 
@@ -190,10 +204,9 @@ void handle_init(void) {
 	app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values), sync_tuple_changed_callback, sync_error_callback, NULL); 
 
  	psleep(2000);
-	DictionaryIterator *iter;
 	app_message_outbox_begin(&iter);
-	Tuplet cfg_val = TupletCString(999,  "cfg");
-	dict_write_tuplet(iter, &cfg_val);
+	Tuplet cmd_val = TupletCString(998, "rd_settings");
+	dict_write_tuplet(iter, &cmd_val);
 	app_message_outbox_send();
 }
 

@@ -1,5 +1,5 @@
-function sendSMS(frm, num, msg) {
-  console.log("Attempt to sendSMS.");
+function requestSMS(frm, num, msg) {
+  console.log("Attempting to send SMS.");
   console.log(frm, num, msg);
   var req = new XMLHttpRequest();
   req.open('GET', "http://antonioasaro.site50.net/sms_2.0.php?cmd=test&frm="+frm+"&num="+num+"&msg="+msg, true); 
@@ -7,8 +7,10 @@ function sendSMS(frm, num, msg) {
     if (req.readyState == 4) {
       if(req.status == 200) {
         console.log("Success.");
+		Pebble.sendAppMessage({"999": 0});
       } else {
         console.log("Error.");
+		Pebble.sendAppMessage({"999": 1});
       }
     }
   }
@@ -25,17 +27,22 @@ Pebble.addEventListener('appmessage', function(e) {
 
 	action = e.payload.cmd;
   	if (typeof(action) != 'undefined') {
-		if (action == 'cfg') {
+		if (action == 'rd_settings') {
     		var settings = localStorage.getItem('SMS');
     		if (typeof(settings) == 'string') {
 	      		try {
-					console.log("GetItem settings.");
+					console.log("Read settings.");
  	       			Pebble.sendAppMessage(JSON.parse(settings));
  	     		} catch (e) {
   	    		}
 			}
 		} else {
-			sendSMS(e.payload.frm, e.payload.num, e.payload.msg);
+			if (action == 'request_sms') {
+				console.log("Request SMS");
+				requestSMS(e.payload.frm, e.payload.num, e.payload.msg);
+			} else {
+				console.log("Error: ignoring unknown action");
+			}
 		}
     }
 });
