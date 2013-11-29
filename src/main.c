@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "util.h"
 
+
 ///////////////////////////////////////////////
 #define TOTAL_WHO 4
 #define TOTAL_MSG 5
@@ -14,9 +15,7 @@ static char msg_list[TOTAL_MSG][32];
 static AppTimer *timer;
 static AppSync sync;
 static uint8_t sync_buffer[512];
-static void handle_timer(void *data);
 static DictionaryIterator *iter;
-
 
 static Window *window;
 static TextLayer *frm_layer;
@@ -24,10 +23,10 @@ static TextLayer *who_layer;
 static TextLayer *msg_layer;
 static TextLayer *cmd_layer;
 static bool sending = false;
+static int who_sel = 0;
+static int msg_sel = 0;
 
-int who_sel = 0;
-int msg_sel = 0;
-
+static void handle_timer(void *data);
 
 void request_mail_to_sms(void) {
     static char *frmptr = frm;
@@ -126,15 +125,27 @@ static void sync_error_callback(DictionaryResult dict_error, AppMessageResult ap
 }
 
 void out_sent_handler(DictionaryIterator *sent, void *context) {
+	text_layer_set_text(cmd_layer, "out_sent_handler");
 }
 
 void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
+	text_layer_set_text(cmd_layer, "out_failed_handler");
 }
 
 void in_received_handler(DictionaryIterator *received, void *context) {
+	text_layer_set_text(cmd_layer, "in_recieved_handler");
+	Tuple *val = dict_find(received, 999);
+	if (val) {
+		if (val->value->data == 0) {
+			text_layer_set_text(cmd_layer, "Success.");
+		} else {
+			text_layer_set_text(cmd_layer, "Failed.");
+		}
+    }
 }
 
 void in_dropped_handler(AppMessageResult reason, void *context) {
+	text_layer_set_text(cmd_layer, "in_dropped_handler");
 }
 
 
