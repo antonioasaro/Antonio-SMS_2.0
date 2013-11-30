@@ -33,13 +33,16 @@ void request_mail_to_sms(void) {
     static char *frmptr = frm;
 	static char num[32], *numptr = num;
     static char msg[32], *msgptr = msg;
+	static char *msg_rpl = NULL;
 
 	if (sending) return;
   	text_layer_set_text(cmd_layer, "Sending ...");
 	sending = true;
 	
-	strcpy(num, num_list[who_sel]); 
-	strcpy(msg, msg_list[msg_sel]); // replace_char(msg_list[msg_sel], ' ', "%20"));
+	strcpy(num, num_list[who_sel]);
+	msg_rpl = replace_char(msg_list[msg_sel], ' ', "%20");
+	strcpy(msg, msg_rpl);
+	free(msg_rpl); msg_rpl = NULL;
 
 	app_message_outbox_begin(&iter);
 	Tuplet rqs_val = TupletCString(98, "request_sms");
