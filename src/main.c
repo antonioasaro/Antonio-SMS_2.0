@@ -16,7 +16,7 @@ static char sts[32];
 static AppTimer *timer;
 static AppSync sync;
 static uint8_t sync_buffer[512];
-static DictionaryIterator *iter;
+static DictionaryIterator dict_iter, *iter = &dict_iter;
 
 static Window *window;
 static TextLayer *frm_layer;
@@ -39,7 +39,7 @@ void request_mail_to_sms(void) {
 	sending = true;
 	
 	strcpy(num, num_list[who_sel]); 
-	strcpy(msg, replace_char(msg_list[msg_sel], ' ', "%20"));
+	strcpy(msg, msg_list[msg_sel]); // replace_char(msg_list[msg_sel], ' ', "%20"));
 
 	app_message_outbox_begin(&iter);
 	Tuplet rqs_val = TupletCString(98, "request_sms");
@@ -160,19 +160,19 @@ void handle_init(void) {
   	text_layer_set_font(frm_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(frm_layer));
 
-	who_layer = text_layer_create(GRect(5, 100,  135, 30));
+	who_layer = text_layer_create(GRect(5, 90,  135, 30));
   	text_layer_set_text_color(who_layer, GColorBlack);
   	text_layer_set_background_color(who_layer, GColorClear);
   	text_layer_set_font(who_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(who_layer));
 
-	msg_layer = text_layer_create(GRect(5, 120,  135, 30));
+	msg_layer = text_layer_create(GRect(5, 110,  135, 30));
   	text_layer_set_text_color(msg_layer, GColorBlack);
   	text_layer_set_background_color(msg_layer, GColorClear);
   	text_layer_set_font(msg_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(msg_layer));
 
-	cmd_layer = text_layer_create(GRect(5, 60, 135, 30));
+	cmd_layer = text_layer_create(GRect(5, 50, 135, 30));
   	text_layer_set_text_color(cmd_layer, GColorBlack);
   	text_layer_set_background_color(cmd_layer, GColorClear);
   	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
