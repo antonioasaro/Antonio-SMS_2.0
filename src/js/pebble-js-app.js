@@ -2,7 +2,7 @@ function requestSMS(frm, num, msg) {
   	console.log("Attempting to send SMS.");
   	console.log(frm, num, msg);
   	var req = new XMLHttpRequest();
-  	req.open('GET', "http://antonioasaro.site50.net/sms_2.0.php?cmd=send&frm="+frm+"&num="+num+"&msg="+msg, true); 
+  	req.open('GET', "http://asarotools.com/sms_2.0.php?cmd=send&frm="+frm+"&num="+num+"&msg="+msg, true); 
   	req.onload = function(e) {
     	if (req.readyState == 4) {
       		if(req.status == 200) {
@@ -49,7 +49,7 @@ Pebble.addEventListener('appmessage', function(e) {
 
 Pebble.addEventListener('showConfiguration', function(e) {
     console.log("Showing configuration window.\n");
-	Pebble.openURL('http://antonioasaro.site50.net/sms_2.0.html');
+	Pebble.openURL('http://asarotools.com/sms_2.0.html');
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {

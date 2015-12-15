@@ -154,32 +154,66 @@ static void handle_timer(void *data)
 void handle_init(void) {
 	window = window_create();
 	window_stack_push(window, true);
-
   	Layer *root_layer = window_get_root_layer(window);
 
-  	frm_layer = text_layer_create(GRect(5, 10,  135, 30));
+#ifdef PBL_ROUND
+	frm_layer = text_layer_create(GRect(25, 36,  135, 30));
+#else
+	frm_layer = text_layer_create(GRect(5, 20,  135, 30));
+#endif
+#ifdef PBL_BW
   	text_layer_set_text_color(frm_layer, GColorBlack);
+#else
+	  	text_layer_set_text_color(frm_layer, GColorRed);
+#endif
   	text_layer_set_background_color(frm_layer, GColorClear);
   	text_layer_set_font(frm_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(frm_layer));
 
-	who_layer = text_layer_create(GRect(5, 90,  135, 30));
+	
+#ifdef PBL_ROUND
+	cmd_layer = text_layer_create(GRect(25, 66, 135, 30));
+#else
+	cmd_layer = text_layer_create(GRect(5, 60, 135, 30));
+#endif 
+#ifdef PBL_BW	
+  	text_layer_set_text_color(cmd_layer, GColorBlack);
+#else	
+	text_layer_set_text_color(cmd_layer, GColorDarkGreen);
+#endif	
+  	text_layer_set_background_color(cmd_layer, GColorClear);
+  	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  	layer_add_child(root_layer, text_layer_get_layer(cmd_layer));
+
+	
+#ifdef PBL_ROUND
+	who_layer = text_layer_create(GRect(25, 96,  135, 30));
+#else	
+	who_layer = text_layer_create(GRect(5, 100,  135, 30));
+#endif 
+#ifdef PBL_BW	
   	text_layer_set_text_color(who_layer, GColorBlack);
+#else
+	text_layer_set_text_color(who_layer, GColorBlue);
+#endif	
   	text_layer_set_background_color(who_layer, GColorClear);
   	text_layer_set_font(who_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(who_layer));
 
-	msg_layer = text_layer_create(GRect(5, 110,  135, 30));
+
+#ifdef PBL_ROUND	
+	msg_layer = text_layer_create(GRect(25, 116,  135, 30));
+#else	
+	msg_layer = text_layer_create(GRect(5, 120,  135, 30));
+#endif 
+#ifdef PBL_BW	
   	text_layer_set_text_color(msg_layer, GColorBlack);
+#else
+	text_layer_set_text_color(msg_layer, GColorBlue);
+#endif	
   	text_layer_set_background_color(msg_layer, GColorClear);
   	text_layer_set_font(msg_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
   	layer_add_child(root_layer, text_layer_get_layer(msg_layer));
-
-	cmd_layer = text_layer_create(GRect(5, 50, 135, 30));
-  	text_layer_set_text_color(cmd_layer, GColorBlack);
-  	text_layer_set_background_color(cmd_layer, GColorClear);
-  	text_layer_set_font(cmd_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
-  	layer_add_child(root_layer, text_layer_get_layer(cmd_layer));
 
     text_layer_set_text(who_layer, "To:");
     text_layer_set_text(msg_layer, "Msg:");

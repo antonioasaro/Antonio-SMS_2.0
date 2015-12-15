@@ -1,30 +1,36 @@
 {
-    "versionLabel": "1.1",
-    "uuid": "5cc7ebd1-ea97-494c-ae7c-ecd05dd33a5a",
     "appKeys": {
-        "msg": 52,
         "cmd": 98,
-        "num": 51,
-        "frm": 50
+        "frm": 50,
+        "msg": 52,
+        "num": 51
     },
-    "longName": "Antonio-SMS_2.0",
-    "versionCode": 1,
     "capabilities": [
         "configurable"
     ],
-    "shortName": "SMS_2.0",
     "companyName": "antonio_asaro",
-    "watchapp": {
-        "watchface": false
-    },
+    "longName": "Antonio-SMS_2.0",
+    "projectType": "native",
     "resources": {
         "media": [
             {
+                "file": "images/icon.png",
                 "menuIcon": true,
-                "type": "png",
                 "name": "IMAGE_MENU_ICON",
-                "file": "images/icon.png"
+                "type": "png"
             }
         ]
+    },
+    "sdkVersion": "3",
+    "shortName": "SMS_2.0",
+    "targetPlatforms": [
+        "aplite",
+        "basalt",
+        "chalk"
+    ],
+    "uuid": "5cc7ebd1-ea97-494c-ae7c-ecd05dd33a5a",
+    "versionLabel": "1.2",
+    "watchapp": {
+        "watchface": false
     }
 }
